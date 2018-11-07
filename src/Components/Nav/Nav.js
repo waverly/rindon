@@ -11,20 +11,19 @@ const NavWrapper = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  @media screen and (max-width: 1000px) {
-    background-color: white;
-    border-bottom: 1px solid ${props => props.theme.colors.darkblue};
-  }
+  text-transform: uppercase;
 `;
 
 const Left = styled.div`
-  width: 49%;
-  h2 {
-    font-size: 12px;
-  }
+  width: 97vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  transform: rotate(-90deg) translateX(-97vh);
+  transform-origin: top left;
 `;
 
-const Right = styled.div`
+const NavItems = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -61,18 +60,22 @@ const Nav = props => {
   return (
     <NavWrapper>
       <Left>
-        <h2>Waverly Mandel</h2>
+        <h2>Rindon Johnson</h2>
+
+        <NavItems>
+          <Link to="/">
+            <NavItem active={props.location.pathname === "/"}>Work</NavItem>
+          </Link>
+          <Link to="/news">
+            <NavItem active={props.location.pathname === "/news"}>News</NavItem>
+          </Link>
+          <Link to="/about">
+            <NavItem active={props.location.pathname === "/about"}>
+              About
+            </NavItem>
+          </Link>
+        </NavItems>
       </Left>
-      <Right>
-        <Link to="/">
-          <NavItem active={props.location.pathname === "/"}>Info</NavItem>
-        </Link>
-        <Link to="/work">
-          <NavItem active={props.location.pathname === "/work"}>
-            Recent Work
-          </NavItem>
-        </Link>
-      </Right>
     </NavWrapper>
   );
 };

@@ -6,10 +6,40 @@ import { fetchWorkPage } from "../../Utils/prismic-configuration";
 
 const PageWrap = styled.div`
   text-align: left;
-  padding: 150px 0px;
+`;
 
-  @media screen and (max-width: 1000px) {
-    padding: 50px 0;
+const FilterItems = styled.div`
+  width: 97vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  transform: rotate(-90deg);
+  transform-origin: bottom right;
+  margin-left: auto;
+  position: fixed;
+  top: -20px;
+  right: 0;
+  background: white;
+  padding: 10px;
+`;
+
+const FilterItem = styled.h2`
+  margin: 0 7px;
+  font-size: 12px;
+  line-height: 22px;
+  text-transform: uppercase;
+  position: relative;
+  &:before {
+    content: "";
+    width: 100%;
+    height: 40%;
+    position: absolute;
+    background-color: ${props => props.theme.colors.yellow};
+    top: 30%;
+    left: 0;
+    z-index: -1;
+    opacity: ${props => (props.active ? "1" : "0")};
+    transition: 0.5s opacity;
   }
 `;
 
@@ -35,6 +65,13 @@ class Work extends Component {
     if (this.state.data) {
       return (
         <PageWrap>
+          <FilterItems>
+            <FilterItem>All</FilterItem>
+            <FilterItem>Exhibition</FilterItem>
+            <FilterItem>Sculpture</FilterItem>
+            <FilterItem>Performance</FilterItem>
+            <FilterItem>Published</FilterItem>
+          </FilterItems>
           <PortfolioWrapper>
             {this.state.data.portfolioItems.map(item => (
               <PortfolioItem data={item} key={generateKey(item.uid)} />

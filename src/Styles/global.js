@@ -7,14 +7,19 @@ import normalized from "./normalized";
 export const globalStyles = css`
 	${normalized}
 
-		@font-face {
-		font-family:'gotham';
-		src: url('/fonts/gothamLightRegular.otf'); 
+
+	${"" /* TODO: CONVERT TO EOT */}
+	@font-face {
+		font-family: 'Acumin Pro';
+		font-style: normal;
+		font-weight: normal;
+		src: url('fonts/acumin/Acumin-RPro.woff') format('woff');
 	}
+
 
 	html {
 		font-size: 10px;
-		font-family: 'gotham', 'Times New Roman', Times, serif;
+		font-family: 'Acumin Pro', Helvetica, sans-serif;
 		font-weight: 300;
 	}
 
@@ -24,7 +29,7 @@ export const globalStyles = css`
 
 	button, input, select, option, textarea {
 		background: white;
-		font-family: 'gotham', 'Times New Roman', Times, serif;
+		font-family: 'Acumin Pro', Helvetica, sans-serif;
 		font-weight: 300;
 		border: none;
 		outline: none;
@@ -45,7 +50,6 @@ export const globalStyles = css`
 	h1, h2, h3, h4, h5, h6, p, li, ol {
 		font-weight: 300;
 		margin: 0;
-		text-transform: uppercase;
 		letter-spacing: 1px;
 		color: #1A1934;
 
@@ -75,7 +79,6 @@ export const globalStyles = css`
 	a {
 		text-decoration: none;
 		color: inherit;
-		text-transform: uppercase;
 	}
 
 	* {
@@ -84,7 +87,7 @@ export const globalStyles = css`
 
 	body {
 		padding: 0;
-		font-family: 'gotham', 'helvetica', sans-serif;
+		font-family: 'Acumin Pro', Helvetica, sans-serif;
 	}
 
 	#root,

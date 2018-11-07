@@ -8,6 +8,7 @@ import { globalStyles } from "Styles/global";
 import { theme } from "Styles/themes";
 
 import Info from "./Views/Info";
+import News from "./Views/News";
 import Work from "./Views/Work";
 import Nav from "./Components/Nav";
 import logo from "./logo.svg";
@@ -31,8 +32,9 @@ class App extends Component {
         <div>
           <Nav />
           <Switch>
-            <Route path="/work" exact component={Work} />
-            <Route path="/" exact component={Info} />
+            <Route path="/" exact component={Work} />
+            <Route path="/news" exact component={News} />
+            <Route path="/about" exact component={Info} />
           </Switch>
         </div>
       </ThemeProvider>
