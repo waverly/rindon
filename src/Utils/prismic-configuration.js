@@ -9,40 +9,84 @@ export const linkResolver = function(doc) {
   return "/doc/" + doc.id;
 };
 
-export const apiEndpoint = "https://waverly-web-portfolio.prismic.io/api/v2";
+export const apiEndpoint = "https://rindon.prismic.io/api/v2";
+
+export const fetchTagData = async uid => {
+  const api = await Prismic.api(apiEndpoint);
+  const tagData = await api.getByUID("tag", uid).then(function(t) {
+    return t;
+  });
+
+  if (tagData) {
+    const { id } = tagData;
+    const title = tagData.data.tag[0].text;
+    return { id, title };
+  } else return null;
+};
 
 export const fetchWorkPage = async () => {
   const api = await Prismic.api(apiEndpoint);
   const response = await api.query(
-    Prismic.Predicates.at("document.type", "work_page")
+    Prismic.Predicates.at("document.type", "work_item"),
+    { pageSize: 500 }
   );
 
-  const data = response.results[0].data;
+  const results = response.results;
 
-  const portfolioItems = data.portfolio_items;
+  // loop over results and return relevant information:
 
-  const portfolioItemData = await Promise.all(
-    portfolioItems.map(async item => {
-      const uid = item.portfolio_item.uid;
-      const itemResponse = await api.getByUID("portfolio_item", uid);
-      const itemData = itemResponse.data;
-
-      const title = itemData.title[0].text;
-      // todo - refactor to include richtext
-      const description = itemData.description[0].text;
-      const thumbnail = itemData.thumbnail.url;
-      const hyperlink = itemData.hyperlink.url;
-
-      const technologies = itemData.technologies.map(
-        tech => tech.technology[0].text
+  const resultData = await Promise.all(
+    results.map(async item => {
+      const data = item.data;
+      const uid = item.uid;
+      const title = data.project_title[0].text;
+      const tags = await Promise.all(
+        data.tags.map(async tag => {
+          const uid = tag.tag.uid;
+          const tagData = await fetchTagData(uid);
+          return tagData;
+        })
       );
-
-      return { title, description, thumbnail, hyperlink, technologies, uid };
+      const date = data.project_date;
+      const dateArray = Array.from(date);
+      const yearArray = dateArray.slice(0, 4);
+      const year = yearArray.join("");
+      return { uid, title, tags, year };
     })
   );
 
-  const returnData = { portfolioItems: portfolioItemData };
+  const returnData = { workPageData: resultData };
   return returnData;
+};
+
+// can i refactor this to accept a "field" param if i want to sort by something other than title?
+export const compare = (a, b) => {
+  if (a.title < b.title) return -1;
+  if (a.title > b.title) return 1;
+  return 0;
+};
+
+export const fetchTags = async () => {
+  const api = await Prismic.api(apiEndpoint);
+  const response = await api.query(
+    Prismic.Predicates.at("document.type", "tag"),
+    { pageSize: 500 }
+  );
+
+  const results = response.results;
+
+  // // loop over results and return relevant information:
+
+  const tagData = results.map(item => {
+    const title = item.data.tag[0].text;
+    const uid = item.uid;
+    return { uid, title };
+  });
+
+  // sort in abc order
+  tagData.sort(compare);
+
+  return tagData;
 };
 
 export const fetchPortfolioItem = async () => {};
