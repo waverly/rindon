@@ -11,20 +11,13 @@ import Info from "./Views/Info";
 import News from "./Views/News";
 import Work from "./Views/Work";
 import Nav from "./Components/Nav";
-import logo from "./logo.svg";
 
 injectGlobal`
 	${globalStyles}
 `;
 
 class App extends Component {
-  state = {
-    home: [],
-    articles: [],
-    posts: []
-  };
-
-  componentDidMount() {}
+  state = {};
 
   render() {
     return (

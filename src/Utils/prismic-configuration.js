@@ -66,17 +66,65 @@ export const compare = (a, b) => {
   return 0;
 };
 
+export const fetchNewsPage = async () => {
+  const api = await Prismic.api(apiEndpoint);
+  const response = await api.query(
+    Prismic.Predicates.at("document.type", "news_item"),
+    { pageSize: 500 }
+  );
+
+  const results = response.results;
+
+  console.log(results);
+
+  // loop over results and return relevant information:
+  const resultData = await Promise.all(
+    results.map(item => {
+      const data = item.data;
+      const uid = item.uid;
+      const title = data.title ? data.title[0].text : null;
+      const blurb = data.blurb ? data.blurb : null;
+      const time = data.time[0] ? data.time[0].text : null;
+      const location = data.location[0] ? data.location[0].text : null;
+      const link = data.external_link.url;
+
+      const date = data.date;
+      const dateArray = Array.from(date);
+      const yearArray = dateArray.slice(0, 4);
+      const year = yearArray.join("");
+      return { uid, title, blurb, year, time, location, link };
+    })
+  );
+
+  // const returnData = { workPageData: resultData };
+  return resultData;
+};
+
+export const fetchAbout = async () => {
+  const api = await Prismic.api(apiEndpoint);
+  const response = await api.query(
+    Prismic.Predicates.at("document.type", "about_page"),
+    { pageSize: 10 }
+  );
+
+  const data = response.results[0].data;
+  console.log(data);
+
+  const contact = data.contact_link.url;
+  const cv = data.cv.url;
+  const text = data.text;
+  return { contact, cv, text };
+};
+
 export const fetchTags = async () => {
   const api = await Prismic.api(apiEndpoint);
   const response = await api.query(
     Prismic.Predicates.at("document.type", "tag"),
     { pageSize: 500 }
   );
-
   const results = response.results;
 
   // // loop over results and return relevant information:
-
   const tagData = results.map(item => {
     const title = item.data.tag[0].text;
     const uid = item.uid;

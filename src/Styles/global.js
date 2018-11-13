@@ -67,7 +67,7 @@ export const globalStyles = css`
 	}
 
 	h2, h3, h4, p {
-		font-size: 12px;
+		font-size: 14px;
 		line-height: 18px;
 
 		@media screen and (max-width: 1000px) {

@@ -30,6 +30,7 @@ const FilterItem = styled.h2`
   line-height: 22px;
   text-transform: uppercase;
   position: relative;
+  cursor: pointer;
   &:before {
     content: "";
     width: 100%;
@@ -48,7 +49,7 @@ const PortfolioWrapper = styled.div`
   width: 70%;
   margin: 0 auto;
   max-width: 1000px;
-  padding-top: 100px;
+  padding: 100px 0;
 
   /* @media screen and (max-width: 1000px) {
     width: 100%;
@@ -62,13 +63,20 @@ const YearTitle = styled.h1`
 class Work extends Component {
   state = {};
 
+  compare = (a, b) => {
+    if (a < b) return 1;
+    if (a > b) return -1;
+    return 0;
+  };
+
   async componentDidMount() {
     const [data, tags] = await Promise.all([fetchWorkPage(), fetchTags()]);
     const dataSet = data.workPageData;
     const allYears = dataSet.map(r => r.year);
-    const uniqueYears = allYears.filter(function(item, pos) {
+    let uniqueYears = allYears.filter(function(item, pos) {
       return allYears.indexOf(item) == pos;
     });
+    uniqueYears.sort(this.compare);
 
     this.setState({ workPageData: dataSet, tagData: tags, years: uniqueYears });
   }
@@ -105,8 +113,6 @@ class Work extends Component {
                   })}
                 </FilterItems>
                 <PortfolioWrapper>
-                  {/* filter through years, display year header */}
-
                   {this.state.years.map(year => {
                     if (
                       this.state.workPageData

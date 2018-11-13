@@ -2,6 +2,8 @@ import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { generateKey } from "Utils/helpers";
+import { RichText } from "prismic-reactjs";
+import { linkResolver } from "Utils/prismic-configuration";
 
 const ItemWrapper = styled.div`
   width: 100%;
@@ -9,7 +11,8 @@ const ItemWrapper = styled.div`
   border-bottom: 2px solid black;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  position: relative;
   ${"" /* @media screen and (max-width: 1000px) {
     flex-direction: column;
   } */};
@@ -20,29 +23,10 @@ const OuterWrap = styled.div`
     background-color: ${props => props.theme.colors.yellow};
   }
 
-  svg {
-    transition: 0.75s all;
-    rect {
-      fill: rgb(249, 255, 0);
-      stroke-width: 0;
-    }
-  }
-
   &:hover {
     img {
       opacity: 1;
       transition: 0.2s opacity;
-    }
-
-    svg {
-      transform: rotate(45deg) scale(0.5);
-      transition: 0.5s all;
-      border-radius: 50%;
-      /* border-right: 2px solid black;
-      border-top: 2px solid black; */
-      rect {
-        fill: black;
-      }
     }
   }
 `;
@@ -53,11 +37,16 @@ const Left = styled.div`
 
 const Right = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
+  flex-direction: column;
+  position: absolute;
+  height: 100%;
+  justify-content: space-between;
+  align-items: flex-end;
   width: 30%;
   text-align: right;
+  right: 0;
+  top: 0;
+  padding: 15px;
 
   span {
     margin-left: 10px;
@@ -73,27 +62,40 @@ const Right = styled.div`
 `;
 
 const Title = styled.h1``;
+const Blurb = styled.div``;
+const Date = styled.p``;
+const Location = styled.p``;
+const MoreInfo = styled.a`
+  font-size: 14px;
+  margin-top: auto;
+  text-decoration: underline;
+`;
+
 const Description = styled.h3``;
 
-const PortfolioItem = props => {
-  const { title, uid, tags, date } = props.data;
+const NewsItem = props => {
+  const { title, uid, time, location, link, blurb } = props.data;
 
   return (
     <OuterWrap>
-      <Link to={`/${uid}`}>
-        <ItemWrapper>
-          <Left>
-            <Title>{title}</Title>
-          </Left>
-          <Right>
-            <svg width="20" height="20">
-              <rect width="20" height="20" />
-            </svg>
-          </Right>
-        </ItemWrapper>
-      </Link>
+      <ItemWrapper>
+        <Left>
+          <Title>{title}</Title>
+          <Blurb>{RichText.render(blurb, linkResolver)}</Blurb>
+        </Left>
+        <Right>
+          <div>
+            <Date>{time}</Date>
+            <Location>{location}</Location>
+          </div>
+
+          <MoreInfo target="_blank" href={link}>
+            More Information
+          </MoreInfo>
+        </Right>
+      </ItemWrapper>
     </OuterWrap>
   );
 };
 
-export default PortfolioItem;
+export default NewsItem;
