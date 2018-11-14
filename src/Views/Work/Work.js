@@ -4,6 +4,7 @@ import Filter from "Components/Filter";
 import PortfolioItem from "Components/PortfolioItem";
 import { generateKey } from "Utils/helpers";
 import { fetchWorkPage, fetchTags } from "../../Utils/prismic-configuration";
+import { media } from "Styles/style-utils";
 
 const PageWrap = styled.div`
   text-align: left;
@@ -49,6 +50,12 @@ const PortfolioWrapper = styled.div`
   margin: 0 auto;
   max-width: 1000px;
   padding: 100px 0;
+
+  ${media.handheld_landscape`
+    width: 90vw;
+    margin-right: auto;
+
+  `};
 `;
 
 const YearTitle = styled.h1`
