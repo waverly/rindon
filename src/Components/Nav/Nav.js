@@ -12,6 +12,7 @@ const NavWrapper = styled.div`
   top: 0;
   left: 0;
   text-transform: uppercase;
+  z-index: 5;
 `;
 
 const Left = styled.div`

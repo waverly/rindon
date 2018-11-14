@@ -4,13 +4,57 @@ import styled from "styled-components";
 import { RichText } from "prismic-reactjs";
 import { linkResolver } from "Utils/prismic-configuration";
 import { generateKey } from "Utils/helpers";
+import {
+  ImageBlock,
+  Diptych,
+  TextBlock,
+  VideoBlock
+} from "Components/DetailBody";
 import { apiEndpoint } from "../../Utils/prismic-configuration";
 
 const PageWrap = styled.div`
   text-align: left;
 `;
 
-const FilterItems = styled.div`
+const IntroText = styled.div`
+  /* position: fixed; */
+  top: 0;
+  margin-left: 10vw;
+  width: 80vw;
+  /* height: 100vh;
+  overflow: scroll; */
+  z-index: 0;
+  padding: 50px 0;
+
+  p {
+    margin: 2rem 0;
+  }
+`;
+
+// const IntroTextInner = styled.div`
+//   width: 100%;
+//   height: 90%;
+//   overflow-y: scroll;
+//   padding-right: 17px; /* Increase/decrease this value for cross-browser compatibility */
+//   box-sizing: content-box;
+//   margin-top: 10%;
+// `;
+
+const BodyWrap = styled.div`
+  /* z-index: 1; */
+  position: relative;
+  background: white;
+  width: 100vw;
+`;
+
+const FullHeight = styled.div`
+  width: 100vw;
+  height: 30vh;
+  outline: 5px solid red;
+  background-color: yellow;
+`;
+
+const Title = styled.div`
   width: 97vh;
   display: flex;
   align-items: flex-start;
@@ -21,63 +65,11 @@ const FilterItems = styled.div`
   position: fixed;
   top: -20px;
   right: 0;
-  background: white;
+  background: transparent;
   padding: 10px;
-`;
-
-const FilterItem = styled.h2`
-  margin: 0 7px;
-  font-size: 12px;
-  line-height: 22px;
-  text-transform: uppercase;
-  position: relative;
-  cursor: pointer;
-  &:before {
-    content: "";
-    width: 100%;
-    height: 40%;
-    position: absolute;
-    background-color: ${props => props.theme.colors.yellow};
-    top: 30%;
-    left: 0;
-    z-index: -1;
-    opacity: ${props => (props.active ? "1" : "0")};
-    transition: 0.5s opacity;
-  }
-`;
-
-const PortfolioWrapper = styled.div`
-  width: 70%;
-  margin: 0 auto;
-  max-width: 1000px;
-  padding: 100px 0;
-`;
-
-const YearTitle = styled.h1`
-  margin: 6rem 0px 20px 10px;
-`;
-
-const IntroText = styled.div`
-  position: fixed;
-  top: 0;
-  left: 10vw;
-  width: 80vw;
-  height: 100vh;
-  overflow: scroll;
-  z-index: 0;
-`;
-
-const BodyWrap = styled.div`
-  margin-top: 100vh;
   z-index: 5;
-  position: relative;
-`;
 
-const FullHeight = styled.div`
-  width: 100vw;
-  height: 30vh;
-  outline: 5px solid red;
-  background-color: yellow;
+  font-size: 2rem;
 `;
 
 class WorkDetail extends Component {
@@ -102,10 +94,40 @@ class WorkDetail extends Component {
       const { body, intro_text, title } = this.state.data;
       return (
         <PageWrap>
-          <IntroText>{RichText.render(intro_text, linkResolver)}</IntroText>
+          <Title>{title}</Title>
+          <IntroText>
+            {/* <IntroTextInner> */}
+            {RichText.render(intro_text, linkResolver)}
+            {/* </IntroTextInner> */}
+          </IntroText>
           <BodyWrap>
-            {body.map(module => {
-              return <FullHeight />;
+            {body.map((module, index) => {
+              switch (module.slice_type) {
+                case "image":
+                  return (
+                    <ImageBlock
+                      key={generateKey(index)}
+                      data={module.primary}
+                    />
+                  );
+                case "diptych":
+                  return (
+                    <Diptych key={generateKey(index)} data={module.primary} />
+                  );
+                case "video":
+                  return (
+                    <VideoBlock
+                      key={generateKey(index)}
+                      data={module.primary}
+                    />
+                  );
+                case "text":
+                  return (
+                    <TextBlock key={generateKey(index)} data={module.primary} />
+                  );
+                default:
+                  return <FullHeight key={generateKey(index)} />;
+              }
             })}
           </BodyWrap>
         </PageWrap>
