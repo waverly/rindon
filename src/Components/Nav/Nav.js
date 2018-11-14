@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -50,11 +50,6 @@ const NavItem = styled.h2`
     transition: 0.5s opacity;
   }
 `;
-
-const Title = styled.h1`
-  margin-bottom: 10px;
-`;
-const Description = styled.h3``;
 
 const Nav = props => {
   return (

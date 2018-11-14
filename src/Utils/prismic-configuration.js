@@ -1,5 +1,4 @@
 import Prismic from "prismic-javascript";
-import { RichText } from "prismic-reactjs";
 
 export const linkResolver = function(doc) {
   // Pretty URLs for known types
@@ -38,6 +37,7 @@ export const fetchWorkPage = async () => {
   const resultData = await Promise.all(
     results.map(async item => {
       const data = item.data;
+      console.log(data);
       const uid = item.uid;
       const title = data.project_title[0].text;
       const tags = await Promise.all(
@@ -48,10 +48,11 @@ export const fetchWorkPage = async () => {
         })
       );
       const date = data.project_date;
+      const body = data.body;
       const dateArray = Array.from(date);
       const yearArray = dateArray.slice(0, 4);
       const year = yearArray.join("");
-      return { uid, title, tags, year };
+      return { uid, body, title, tags, year };
     })
   );
 
@@ -108,8 +109,6 @@ export const fetchAbout = async () => {
   );
 
   const data = response.results[0].data;
-  console.log(data);
-
   const contact = data.contact_link.url;
   const cv = data.cv.url;
   const text = data.text;

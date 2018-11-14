@@ -1,7 +1,5 @@
-import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
 import styled from "styled-components";
-import { generateKey } from "Utils/helpers";
 import { RichText } from "prismic-reactjs";
 import { linkResolver } from "Utils/prismic-configuration";
 
@@ -71,10 +69,8 @@ const MoreInfo = styled.a`
   text-decoration: underline;
 `;
 
-const Description = styled.h3``;
-
 const NewsItem = props => {
-  const { title, uid, time, location, link, blurb } = props.data;
+  const { title, time, location, link, blurb } = props.data;
 
   return (
     <OuterWrap>

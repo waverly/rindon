@@ -1,7 +1,6 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { generateKey } from "Utils/helpers";
 
 const ItemWrapper = styled.div`
   width: 100%;
@@ -73,7 +72,6 @@ const Right = styled.div`
 `;
 
 const Title = styled.h1``;
-const Description = styled.h3``;
 
 const PortfolioItem = props => {
   const { title, uid, tags, date } = props.data;

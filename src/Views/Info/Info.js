@@ -1,10 +1,7 @@
-import React, { Component, Fragment } from "react";
-import { Link } from "react-router-dom";
+import React, { Component } from "react";
 import styled from "styled-components";
 import { RichText } from "prismic-reactjs";
 import { linkResolver } from "Utils/prismic-configuration";
-import PortfolioItem from "Components/PortfolioItem";
-import { generateKey } from "Utils/helpers";
 import { fetchAbout } from "../../Utils/prismic-configuration";
 
 const PageWrap = styled.div`

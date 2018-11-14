@@ -50,10 +50,6 @@ const PortfolioWrapper = styled.div`
   margin: 0 auto;
   max-width: 1000px;
   padding: 100px 0;
-
-  /* @media screen and (max-width: 1000px) {
-    width: 100%;
-  } */
 `;
 
 const YearTitle = styled.h1`
@@ -72,6 +68,7 @@ class Work extends Component {
   async componentDidMount() {
     const [data, tags] = await Promise.all([fetchWorkPage(), fetchTags()]);
     const dataSet = data.workPageData;
+    console.log(data);
     const allYears = dataSet.map(r => r.year);
     let uniqueYears = allYears.filter(function(item, pos) {
       return allYears.indexOf(item) == pos;
