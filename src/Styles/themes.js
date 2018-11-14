@@ -1,10 +1,10 @@
 import { css } from "styled-components";
 
 export const theme = {
-  colors: { yellow: "#E9FF00", darkblue: "#1A1934" }, // layout
+  colors: { yellow: "#E9FF00", darkblue: "#1A1934" },
   z: {
-    titleBar: 50,
-    settingsMenu: 80,
+    nav: 50,
+    navIcon: 80,
     overlay: 100,
     threeDot: 110,
     modal: 120,
@@ -18,16 +18,52 @@ export const theme = {
     double: "24px",
     triple: "36px",
     quadruple: "48px"
-  }, // end layout
-
+  }, // layout // end layout
   // type
   fontSize: {
-    h1: "20px",
-    h2: "14px",
-    h3: "14px",
-    p: "14px",
-    h4: "14px",
-    h5: "14px"
+    h1: "2rem",
+    h2: "1.4rem",
+    h3: "1.4rem",
+    p: "1.4rem",
+    h4: "1.4rem",
+    h5: "1.4rem",
+    mobileXl: "5rem",
+    mobileL: "3.5rem"
+  },
+  lineHeight: {
+    h1: "2.4rem",
+    h2: "1.8rem",
+    h3: "1.8rem",
+    p: "1.8rem",
+    h4: "1.8rem",
+    h5: "1.8rem",
+    mobileXl: "7rem",
+    mobileL: "5rem"
+  },
+  blocks: {
+    text: css`
+      width: 70vw;
+      max-width: 800px;
+    `
+  },
+  typeMixins: {
+    p: css`
+      font-size: ${props => props.theme.fontSize.p};
+      line-height: ${props => props.theme.lineHeight.p};
+    `,
+    h1: css`
+      font-size: ${props => props.theme.fontSize.h1};
+      line-height: ${props => props.theme.lineHeight.h1};
+    `,
+    h2: css`
+      font-size: ${props => props.theme.fontSize.h2};
+      line-height: ${props => props.theme.lineHeight.h2};
+      font-weight: 600;
+    `,
+    h3: css`
+      font-size: ${props => props.theme.fontSize.h3};
+      line-height: ${props => props.theme.lineHeight.h3};
+    `
   },
   fontWeight: { light: "200", regular: "400", medium: "600", heavy: "800" },
   yellowBefore: css`

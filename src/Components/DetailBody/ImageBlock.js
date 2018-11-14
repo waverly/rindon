@@ -12,9 +12,8 @@ const Wrapper = styled.div`
 `;
 
 const Caption = styled.div`
-  margin: 2rem 0;
-  width: 80vw;
-  margin-left: 10vw;
+  margin: 2rem auto 6rem auto;
+  ${props => props.theme.blocks.text};
 `;
 
 const ImageBlock = props => {

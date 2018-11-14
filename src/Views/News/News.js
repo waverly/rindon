@@ -22,27 +22,26 @@ const FilterItems = styled.div`
 
 const FilterItem = styled.h2`
   margin: 0 7px;
-  font-size: 12px;
-  line-height: 22px;
+  ${props => props.theme.typeMixins.h2};
   text-transform: uppercase;
   position: relative;
   cursor: pointer;
   &:before {
     content: "";
-    width: 100%;
+    width: 0%;
     height: 40%;
     position: absolute;
     background-color: ${props => props.theme.colors.yellow};
     top: 30%;
     left: 0;
     z-index: -1;
-    opacity: 0;
-    transition: 0.5s opacity;
+    transition: 0.5s all;
   }
 
   &:hover {
     &:before {
       opacity: 1;
+      width: 100%;
     }
   }
 `;

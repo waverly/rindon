@@ -26,14 +26,13 @@ const FilterItems = styled.div`
 
 const FilterItem = styled.h2`
   margin: 0 7px;
-  font-size: 12px;
-  line-height: 22px;
+  ${props => props.theme.typeMixins.p};
   text-transform: uppercase;
   position: relative;
   cursor: pointer;
   &:before {
     content: "";
-    width: 100%;
+    width: ${props => (props.active ? "100%" : "0")};
     height: 40%;
     position: absolute;
     background-color: ${props => props.theme.colors.yellow};

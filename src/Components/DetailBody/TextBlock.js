@@ -5,9 +5,8 @@ import styled from "styled-components";
 import { linkResolver } from "Utils/prismic-configuration";
 
 const TextWrap = styled.div`
-  margin: 10em auto;
-  margin-left: 10vw;
-  width: 80vw;
+  margin: 10rem auto;
+  ${props => props.theme.blocks.text};
 `;
 
 const TextBlock = props => {

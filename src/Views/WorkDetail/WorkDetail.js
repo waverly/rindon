@@ -14,37 +14,28 @@ import { apiEndpoint } from "../../Utils/prismic-configuration";
 
 const PageWrap = styled.div`
   text-align: left;
-`;
-
-const IntroText = styled.div`
-  /* position: fixed; */
-  top: 0;
-  margin-left: 10vw;
-  width: 80vw;
-  /* height: 100vh;
-  overflow: scroll; */
-  z-index: 0;
-  padding: 50px 0;
-
   p {
     margin: 2rem 0;
   }
 `;
 
-// const IntroTextInner = styled.div`
-//   width: 100%;
-//   height: 90%;
-//   overflow-y: scroll;
-//   padding-right: 17px; /* Increase/decrease this value for cross-browser compatibility */
-//   box-sizing: content-box;
-//   margin-top: 10%;
-// `;
+const IntroText = styled.div`
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  padding: 20vw;
+  height: 100vh;
+  z-index: 0;
+  padding: 50px 10vw;
+  overflow: scroll;
+`;
 
 const BodyWrap = styled.div`
-  /* z-index: 1; */
+  z-index: 1;
   position: relative;
   background: white;
   width: 100vw;
+  margin-top: 100vh;
 `;
 
 const FullHeight = styled.div`
@@ -66,10 +57,28 @@ const Title = styled.div`
   top: -20px;
   right: 0;
   background: transparent;
-  padding: 10px;
+  padding: 20px;
   z-index: 5;
+  ${props => props.theme.typeMixins.p};
+  text-transform: uppercase;
 
-  font-size: 2rem;
+  span {
+    position: relative;
+    &:before {
+      ${props => props.theme.yellowBefore}
+      width: 0;
+    }
+  }
+
+  &:hover {
+    span {
+      &:before {
+        opacity: 1;
+        width: 100%;
+        transition: all 0.5s;
+      }
+    }
+  }
 `;
 
 class WorkDetail extends Component {
@@ -80,13 +89,15 @@ class WorkDetail extends Component {
     console.log(uid);
     const api = await Prismic.api(apiEndpoint);
     let data = await api.getByUID("work_item", uid);
-    data = data.data;
-    const { body, intro_text } = data;
-    const title = data.project_title[0].text;
+    if (data) {
+      data = data.data;
+      const { body, intro_text } = data;
+      const title = data.project_title[0].text;
 
-    data = { body, intro_text, title };
+      data = { body, intro_text, title };
 
-    this.setState({ data });
+      this.setState({ data });
+    }
   }
 
   render() {
@@ -94,7 +105,9 @@ class WorkDetail extends Component {
       const { body, intro_text, title } = this.state.data;
       return (
         <PageWrap>
-          <Title>{title}</Title>
+          <Title>
+            <span>{title}</span>
+          </Title>
           <IntroText>
             {/* <IntroTextInner> */}
             {RichText.render(intro_text, linkResolver)}

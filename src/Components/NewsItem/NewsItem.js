@@ -9,16 +9,14 @@ const ItemWrapper = styled.div`
   border-bottom: 2px solid black;
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
   position: relative;
-  ${"" /* @media screen and (max-width: 1000px) {
-    flex-direction: column;
-  } */};
 `;
 
 const OuterWrap = styled.div`
+  transition: 0.25s all;
   &:hover {
     background-color: ${props => props.theme.colors.yellow};
+    transition: 0.5s background-color;
   }
 
   &:hover {
@@ -36,20 +34,16 @@ const Left = styled.div`
 const Right = styled.div`
   display: flex;
   flex-direction: column;
-  position: absolute;
-  height: 100%;
   justify-content: space-between;
   align-items: flex-end;
   width: 30%;
   text-align: right;
   right: 0;
   top: 0;
-  padding: 15px;
 
   span {
     margin-left: 10px;
-    font-size: 12px;
-    line-height: 18px;
+    ${props => props.theme.typeMixins.p};
     text-transform: uppercase;
 
     @media screen and (max-width: 1000px) {
@@ -59,12 +53,21 @@ const Right = styled.div`
   }
 `;
 
-const Title = styled.h1``;
-const Blurb = styled.div``;
-const Date = styled.p``;
-const Location = styled.p``;
+const Title = styled.h3`
+  ${props => props.theme.typeMixins.h3};
+  margin-bottom: 1rem;
+`;
+const Blurb = styled.div`
+  ${props => props.theme.typeMixins.p};
+`;
+const Date = styled.p`
+  ${props => props.theme.typeMixins.p};
+`;
+const Location = styled.p`
+  ${props => props.theme.typeMixins.p};
+`;
 const MoreInfo = styled.a`
-  font-size: 14px;
+  ${props => props.theme.typeMixins.p};
   margin-top: auto;
   text-decoration: underline;
 `;

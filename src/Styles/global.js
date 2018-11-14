@@ -16,6 +16,13 @@ export const globalStyles = css`
 		src: url('fonts/acumin/Acumin-RPro.woff') format('woff');
 	}
 
+		@font-face {
+		font-family: 'Acumin Pro Bold';
+		font-style: normal;
+		font-weight: normal;
+		src: url('fonts/acumin/Acumin-BdPro.woff') format('woff');
+	}
+
 
 	html {
 		font-size: 10px;
@@ -66,6 +73,8 @@ export const globalStyles = css`
 		
 	}
 
+
+
 	h2, h3, h4, p {
 		font-size: 14px;
 		line-height: 18px;
@@ -88,6 +97,10 @@ export const globalStyles = css`
 	body {
 		padding: 0;
 		font-family: 'Acumin Pro', Helvetica, sans-serif;
+	}
+
+	h3{
+		font-family: 'Acumin Pro Bold', Helvetica, sans-serif;
 	}
 
 	#root,

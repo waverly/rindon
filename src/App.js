@@ -26,7 +26,7 @@ class App extends Component {
           <Nav />
           <Switch>
             <Route path="/" exact component={Work} />
-            <Route path="/:uid" exact component={WorkDetail} />
+            <Route path="/work/:uid" exact component={WorkDetail} />
             <Route path="/news" exact component={News} />
             <Route path="/about" exact component={Info} />
           </Switch>
