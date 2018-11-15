@@ -74,7 +74,6 @@ class Work extends Component {
   async componentDidMount() {
     const [data, tags] = await Promise.all([fetchWorkPage(), fetchTags()]);
     const dataSet = data.workPageData;
-    console.log(data);
     const allYears = dataSet.map(r => r.year);
     let uniqueYears = allYears.filter(function(item, pos) {
       return allYears.indexOf(item) == pos;

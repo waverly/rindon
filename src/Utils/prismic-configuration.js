@@ -37,7 +37,6 @@ export const fetchWorkPage = async () => {
   const resultData = await Promise.all(
     results.map(async item => {
       const data = item.data;
-      console.log(data);
       const uid = item.uid;
       const title = data.project_title[0].text;
       const tags = await Promise.all(
@@ -75,8 +74,6 @@ export const fetchNewsPage = async () => {
   );
 
   const results = response.results;
-
-  console.log(results);
 
   // loop over results and return relevant information:
   const resultData = await Promise.all(

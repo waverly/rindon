@@ -34,11 +34,9 @@ const VideoBlock = props => {
   // if it is a youtube embed:
 
   if (embed.indexOf("youtube") !== -1) {
-    console.log("YES THIS IS A YOUTUBE LINK");
     const id = embed.split("=")[1];
     embed_url = `https://www.youtube.com/embed/${id}?feature=oembed`;
   } else if (embed.indexOf("vimeo") !== -1) {
-    console.log("YES THIS IS A YOUTUBE LINK");
     const id = embed.split(".com/")[1];
     embed_url = `https://player.vimeo.com/video/${id}`;
   }

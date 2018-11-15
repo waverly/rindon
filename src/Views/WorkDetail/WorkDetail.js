@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import { withRouter } from "react-router";
 import Prismic from "prismic-javascript";
 import styled from "styled-components";
 import { RichText } from "prismic-reactjs";
@@ -14,6 +15,9 @@ import { apiEndpoint } from "../../Utils/prismic-configuration";
 
 const PageWrap = styled.div`
   text-align: left;
+  text-align: left;
+  display: block;
+  position: relative;
   p {
     margin: 2rem 0;
   }
@@ -93,9 +97,7 @@ class WorkDetail extends Component {
       data = data.data;
       const { body, intro_text } = data;
       const title = data.project_title[0].text;
-
       data = { body, intro_text, title };
-
       this.setState({ data });
     }
   }
@@ -149,4 +151,4 @@ class WorkDetail extends Component {
   }
 }
 
-export default WorkDetail;
+export default withRouter(WorkDetail);
