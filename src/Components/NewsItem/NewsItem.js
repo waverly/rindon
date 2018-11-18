@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { RichText } from "prismic-reactjs";
 import { linkResolver } from "Utils/prismic-configuration";
+import { media } from "Styles/style-utils";
 
 const ItemWrapper = styled.div`
   width: 100%;
@@ -10,6 +11,9 @@ const ItemWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   position: relative;
+  ${media.handheld_landscape`
+    flex-direction: column;
+  `};
 `;
 
 const OuterWrap = styled.div`
@@ -29,6 +33,10 @@ const OuterWrap = styled.div`
 
 const Left = styled.div`
   width: 60%;
+  ${media.handheld_landscape`
+    width: 100%;
+    margin-bottom: 1.5rem;
+  `};
 `;
 
 const Right = styled.div`
@@ -40,34 +48,25 @@ const Right = styled.div`
   text-align: right;
   right: 0;
   top: 0;
+  ${media.handheld_landscape`
+    width: 100%;
+    text-align: left;
+    align-items: flex-start;
+  `};
 
   span {
     margin-left: 10px;
-    ${props => props.theme.typeMixins.p};
     text-transform: uppercase;
-
-    @media screen and (max-width: 1000px) {
-      margin-left: 0;
-      margin-right: 10px;
-    }
   }
 `;
 
 const Title = styled.h3`
-  ${props => props.theme.typeMixins.h3};
   margin-bottom: 1rem;
 `;
-const Blurb = styled.div`
-  ${props => props.theme.typeMixins.p};
-`;
-const Date = styled.p`
-  ${props => props.theme.typeMixins.p};
-`;
-const Location = styled.p`
-  ${props => props.theme.typeMixins.p};
-`;
+const Blurb = styled.div``;
+const Date = styled.p``;
+const Location = styled.p``;
 const MoreInfo = styled.a`
-  ${props => props.theme.typeMixins.p};
   margin-top: auto;
   text-decoration: underline;
 `;

@@ -11,6 +11,8 @@ const PageWrap = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  opacity: ${props => (props.loaded ? "1" : "0")};
+  transition: 1s opacity;
 
   @media screen and (max-width: 1000px) {
     padding: 80px 0;
@@ -28,7 +30,7 @@ const TextWrap = styled.div`
   min-width: 500px;
 
   @media screen and (max-width: 1000px) {
-    width: 95%;
+    width: 90vw;
     min-width: auto;
   }
 `;
@@ -40,9 +42,6 @@ const FlexWrap = styled.div`
   display: flex;
   justify-content: flex-start;
   margin-bottom: 40px;
-  /* @media screen and (max-width: 1000px) {
-    flex-direction: column;
-  } */
 `;
 
 const StyledLink = styled.h2`
@@ -57,17 +56,22 @@ const StyledLink = styled.h2`
 `;
 
 class Info extends Component {
-  state = {};
+  state = {
+    loaded: false
+  };
   async componentDidMount() {
     const data = await fetchAbout();
     this.setState({ data });
+    setTimeout(() => {
+      this.setState({ loaded: true });
+    }, 1000);
   }
 
   render() {
     if (this.state.data) {
       const { text, contact, cv } = this.state.data;
       return (
-        <PageWrap>
+        <PageWrap loaded={this.state.loaded}>
           <TextWrap>
             <Bio>{RichText.render(text, linkResolver)} </Bio>
 

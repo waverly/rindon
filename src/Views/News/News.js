@@ -4,6 +4,7 @@ import styled from "styled-components";
 import NewsItem from "Components/NewsItem";
 import { generateKey } from "Utils/helpers";
 import { fetchNewsPage } from "../../Utils/prismic-configuration";
+import { media } from "Styles/style-utils";
 
 const FilterItems = styled.div`
   width: 97vh;
@@ -16,7 +17,6 @@ const FilterItems = styled.div`
   position: fixed;
   top: -20px;
   right: 0;
-  background: white;
   padding: 10px;
 `;
 
@@ -53,6 +53,8 @@ const YearTitle = styled.h1`
 const PageWrap = styled.div`
   text-align: left;
   padding: 150px 0px;
+  opacity: ${props => (props.loaded ? "1" : "0")};
+  transition: 1s opacity;
 
   @media screen and (max-width: 1000px) {
     padding: 50px 0;
@@ -63,10 +65,17 @@ const NewsWrapper = styled.div`
   width: 70%;
   margin: 0 auto;
   max-width: 1000px;
+
+  ${media.handheld_landscape`
+    width: 90vw;
+    margin-right: auto;
+  `};
 `;
 
 class News extends Component {
-  state = {};
+  state = {
+    loaded: false
+  };
 
   compare = (a, b) => {
     if (a < b) return 1;
@@ -84,6 +93,10 @@ class News extends Component {
     uniqueYears.sort(this.compare);
 
     this.setState({ data, years: uniqueYears });
+
+    setTimeout(() => {
+      this.setState({ loaded: true });
+    }, 1000);
   }
 
   scrollTo = year => {
@@ -93,7 +106,7 @@ class News extends Component {
   render() {
     if (this.state.data) {
       return (
-        <PageWrap>
+        <PageWrap loaded={this.state.loaded}>
           <Fragment>
             <FilterItems>
               {this.state.years.map(year => {

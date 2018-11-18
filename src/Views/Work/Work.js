@@ -8,6 +8,10 @@ import { media } from "Styles/style-utils";
 
 const PageWrap = styled.div`
   text-align: left;
+  display: block;
+  position: relative;
+  opacity: ${props => (props.loaded ? "1" : "0")};
+  transition: 1s opacity;
 `;
 
 const FilterItems = styled.div`
@@ -21,7 +25,6 @@ const FilterItems = styled.div`
   position: fixed;
   top: -20px;
   right: 0;
-  background: white;
   padding: 10px;
 `;
 
@@ -50,11 +53,11 @@ const PortfolioWrapper = styled.div`
   margin: 0 auto;
   max-width: 1000px;
   padding: 100px 0;
+  min-height: 100vh;
 
   ${media.handheld_landscape`
     width: 90vw;
     margin-right: auto;
-
   `};
 `;
 
@@ -63,7 +66,9 @@ const YearTitle = styled.h1`
 `;
 
 class Work extends Component {
-  state = {};
+  state = {
+    loaded: false
+  };
 
   compare = (a, b) => {
     if (a < b) return 1;
@@ -81,12 +86,16 @@ class Work extends Component {
     uniqueYears.sort(this.compare);
 
     this.setState({ workPageData: dataSet, tagData: tags, years: uniqueYears });
+
+    setTimeout(() => {
+      this.setState({ loaded: true });
+    }, 1000);
   }
 
   render() {
     if (this.state.workPageData) {
       return (
-        <PageWrap>
+        <PageWrap loaded={this.state.loaded}>
           <Filter
             initialValue="all"
             render={({ currentFilterValue, setFilterValue }) => (

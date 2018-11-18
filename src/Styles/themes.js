@@ -1,4 +1,5 @@
 import { css } from "styled-components";
+import { media } from "Styles/style-utils";
 
 export const theme = {
   colors: { yellow: "#E9FF00", darkblue: "#1A1934" },
@@ -18,8 +19,7 @@ export const theme = {
     double: "24px",
     triple: "36px",
     quadruple: "48px"
-  }, // layout // end layout
-  // type
+  },
   fontSize: {
     h1: "2rem",
     h2: "1.4rem",
@@ -28,7 +28,7 @@ export const theme = {
     h4: "1.4rem",
     h5: "1.4rem",
     mobileXl: "5rem",
-    mobileL: "3.5rem"
+    mobileL: "3.5rem",
   },
   lineHeight: {
     h1: "2.4rem",
@@ -42,6 +42,7 @@ export const theme = {
   },
   blocks: {
     text: css`
+      // type // layout // end layout
       width: 70vw;
       max-width: 800px;
     `
@@ -50,6 +51,10 @@ export const theme = {
     p: css`
       font-size: ${props => props.theme.fontSize.p};
       line-height: ${props => props.theme.lineHeight.p};
+      ${media.handheld_landscape`
+        font-size: ${props => props.theme.fontSize.p};
+        line-height: ${props => props.theme.lineHeight.p};
+      `};
     `,
     h1: css`
       font-size: ${props => props.theme.fontSize.h1};

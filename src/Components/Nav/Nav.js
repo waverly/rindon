@@ -61,8 +61,9 @@ const NavItems = styled.div`
 const Icon = styled.button`
   width: 30px;
   height: 30px;
-  border-radius: 50%;
+  border-radius: ${props => (props.navDisplay ? "0%" : "50%")};
   background-color: ${props => (props.navDisplay ? "yellow" : "black")};
+  transition: 1s all;
   position: fixed;
   z-index: ${props => props.theme.z.alert};
   top: 20px;
@@ -109,6 +110,7 @@ const NavItem = styled.h2`
     line-height: ${props => props.theme.lineHeight.mobileXl};
     display: inline-block;
     margin-bottom: 1rem;
+    margin-left: 0;
 
       &:before {
         content: "";

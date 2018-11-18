@@ -83,13 +83,16 @@ export const globalStyles = css`
   h2,
   h3,
   h4,
-  p {
-    font-size: 14px;
+  p,
+  span,
+  a {
+    font-size: 1.4rem;
     line-height: 18px;
 
-    @media screen and (max-width: 1000px) {
-      font-size: 14px;
-      line-height: 20px;
+    @media (max-width: 768px),
+      @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation: landscape) {
+      font-size: 1.6rem;
+      line-height: 2.6rem;
     }
   }
 
@@ -131,14 +134,13 @@ export const globalStyles = css`
   }
   .fade-wait-leave.fade-wait-leave-active {
     opacity: 0;
-    background: transparent;
     transition: all 0.4s ease-in;
   }
 
   .fade-wait-enter {
     opacity: 0;
-    background: transparent;
   }
+
   .fade-wait-enter.fade-wait-enter-active {
     opacity: 1;
     background: #e9ff00;
