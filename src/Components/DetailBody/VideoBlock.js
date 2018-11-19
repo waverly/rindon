@@ -1,7 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { RichText } from "prismic-reactjs";
-import { linkResolver } from "Utils/prismic-configuration";
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -28,7 +26,6 @@ const IframeWrapper = styled.div`
 
 const VideoBlock = props => {
   const embed = props.data.embed.embed_url;
-  console.log(embed);
   let embed_url;
 
   // if it is a youtube embed:

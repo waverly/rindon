@@ -16,9 +16,9 @@ import { apiEndpoint } from "../../Utils/prismic-configuration";
 
 const PageWrap = styled.div`
   text-align: left;
-  text-align: left;
   display: block;
   position: relative;
+  min-height: 100vh;
   opacity: ${props => (props.loaded ? "1" : "0")};
   transition: 1s opacity;
   p {
@@ -43,6 +43,9 @@ const BodyWrap = styled.div`
   background: white;
   width: 100vw;
   margin-top: 100vh;
+  opacity: 1;
+  /* add the delay display: block so-as to not interrupt react transition group loading */
+  display: ${props => (props.display ? "block" : "none")};
 `;
 
 const FullHeight = styled.div`
@@ -96,12 +99,19 @@ const Title = styled.div`
   }
 `;
 
+const Test = styled.div`
+  height: 100vh;
+  width: 100vw;
+`;
+
 class WorkDetail extends Component {
   state = {
-    loaded: false
+    loaded: false,
+    bodyDisplay: false
   };
 
   async componentDidMount() {
+    window.scrollTo(0, 0);
     const uid = this.props.match.params.uid;
     console.log(uid);
     const api = await Prismic.api(apiEndpoint);
@@ -114,24 +124,24 @@ class WorkDetail extends Component {
       this.setState({ data });
       setTimeout(() => {
         this.setState({ loaded: true });
-      }, 2000);
+      }, 1500);
+      setTimeout(() => {
+        this.setState({ bodyDisplay: true });
+      }, 2500);
     }
   }
 
   render() {
     if (this.state.data) {
       const { body, intro_text, title } = this.state.data;
+
       return (
         <PageWrap loaded={this.state.loaded}>
           <Title>
             <span>{title}</span>
           </Title>
-          <IntroText>
-            {/* <IntroTextInner> */}
-            {RichText.render(intro_text, linkResolver)}
-            {/* </IntroTextInner> */}
-          </IntroText>
-          <BodyWrap>
+          <IntroText>{RichText.render(intro_text, linkResolver)}</IntroText>
+          <BodyWrap display={this.state.bodyDisplay}>
             {body.map((module, index) => {
               switch (module.slice_type) {
                 case "image":
@@ -163,7 +173,7 @@ class WorkDetail extends Component {
           </BodyWrap>
         </PageWrap>
       );
-    } else return null;
+    } else return <PageWrap />;
   }
 }
 

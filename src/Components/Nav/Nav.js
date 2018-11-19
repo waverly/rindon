@@ -73,7 +73,6 @@ const Icon = styled.button`
 
   ${media.handheld_landscape`
     display: block;
-
   `};
 `;
 
@@ -111,6 +110,10 @@ const NavItem = styled.h2`
     display: inline-block;
     margin-bottom: 1rem;
     margin-left: 0;
+
+    &:hover{
+      pointer-events: none;
+    }
 
       &:before {
         content: "";
