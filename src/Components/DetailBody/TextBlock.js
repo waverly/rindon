@@ -10,6 +10,7 @@ const TextWrap = styled.div`
   ${props => props.theme.blocks.text};
   ${media.handheld_landscape`
     margin: 5rem auto;
+    width: 85vw;
   `};
 `;
 

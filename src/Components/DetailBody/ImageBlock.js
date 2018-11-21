@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { RichText } from "prismic-reactjs";
 import { linkResolver } from "Utils/prismic-configuration";
+import { media } from "Styles/style-utils";
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -14,6 +15,9 @@ const Wrapper = styled.div`
 const Caption = styled.div`
   margin: 2rem auto 6rem auto;
   ${props => props.theme.blocks.text};
+  ${media.handheld_landscape`
+    width: 85vw;
+  `};
 `;
 
 const ImageBlock = props => {
