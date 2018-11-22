@@ -29,6 +29,7 @@ export const theme = {
     h5: "1.4rem",
     mobileXl: "5rem",
     mobileL: "3.5rem",
+    mobileP: "2rem"
   },
   lineHeight: {
     h1: "2.4rem",
@@ -38,7 +39,8 @@ export const theme = {
     h4: "1.8rem",
     h5: "1.8rem",
     mobileXl: "7rem",
-    mobileL: "5rem"
+    mobileL: "5rem",
+    mobileP: "3rem"
   },
   blocks: {
     text: css`
@@ -52,8 +54,8 @@ export const theme = {
       font-size: ${props => props.theme.fontSize.p};
       line-height: ${props => props.theme.lineHeight.p};
       ${media.handheld_landscape`
-        font-size: ${props => props.theme.fontSize.p};
-        line-height: ${props => props.theme.lineHeight.p};
+        font-size: ${props => props.theme.fontSize.mobileP};
+        line-height: ${props => props.theme.lineHeight.mobileP};
       `};
     `,
     h1: css`
@@ -76,7 +78,7 @@ export const theme = {
     width: 100%;
     height: 40%;
     position: absolute;
-    background-color: ${props => props.theme.colors.yellow};
+    background-color: ${props => props.theme.keyColor};
     top: 30%;
     left: 0;
     z-index: -1;

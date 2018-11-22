@@ -112,6 +112,19 @@ export const fetchAbout = async () => {
   return { contact, cv, text };
 };
 
+export const fetchColor = async () => {
+  const api = await Prismic.api(apiEndpoint);
+  const response = await api.query(
+    Prismic.Predicates.at("document.type", "key_color"),
+    { pageSize: 10 }
+  );
+
+  const color = response.results[0].data.color;
+  console.log(color);
+
+  return color;
+};
+
 export const fetchTags = async () => {
   const api = await Prismic.api(apiEndpoint);
   const response = await api.query(

@@ -4,6 +4,17 @@
 import { css } from "styled-components";
 import normalized from "./normalized";
 
+import { fetchColor } from "Utils/prismic-configuration";
+
+const color = () => {
+  const c = fetchColor();
+  console.log("inside of fetch color");
+  alert(c);
+  return c;
+};
+
+// const color = "#00DDFF";
+
 export const globalStyles = css`
   ${normalized}
 
@@ -30,6 +41,12 @@ export const globalStyles = css`
 
   form {
     margin: 0;
+  }
+
+  body {
+    padding: 0;
+    font-family: "Acumin Pro", Helvetica, sans-serif;
+    background-color: ${color};
   }
 
   button,
@@ -87,7 +104,7 @@ export const globalStyles = css`
   span,
   a {
     font-size: 1.4rem;
-    line-height: 18px;
+    line-height: 2rem;
 
     @media (max-width: 768px),
       @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation: landscape) {
@@ -103,11 +120,6 @@ export const globalStyles = css`
 
   * {
     box-sizing: border-box;
-  }
-
-  body {
-    padding: 0;
-    font-family: "Acumin Pro", Helvetica, sans-serif;
   }
 
   h3 {

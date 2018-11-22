@@ -3,6 +3,7 @@ import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { media } from "Styles/style-utils";
+import { generateKey } from "Utils/helpers";
 
 const NavWrapper = styled.div`
   width: 100vw;
@@ -27,12 +28,13 @@ const NavWrapper = styled.div`
 `;
 
 const Left = styled.div`
-  width: 90vh;
+  width: 100vh;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  transform: rotate(-90deg) translateX(-92vh);
+  transform: rotate(-90deg) translateX(-99vh);
   transform-origin: top left;
+  padding: 0 20px;
 
   ${media.handheld_landscape`
     width: auto;
@@ -87,7 +89,7 @@ const NavItem = styled.h2`
     width: ${props => (props.active ? "100%" : "0")};
     height: 40%;
     position: absolute;
-    background-color: ${props => props.theme.colors.yellow};
+    background-color: ${props => props.theme.keyColor};
     top: 30%;
     left: 0;
     z-index: -1;
@@ -108,17 +110,22 @@ const NavItem = styled.h2`
     font-size: ${props => props.theme.fontSize.mobileXl};
     line-height: ${props => props.theme.lineHeight.mobileXl};
     display: inline-block;
-    margin-bottom: 1rem;
+    margin: 1rem 0;
     margin-left: 0;
+  
 
     &:hover{
       pointer-events: none;
+      &:before{
+        width: ${props => (props.active ? "100%" : "0")};
+      }
     }
 
       &:before {
         content: "";
         height: 8px;
         top: 90%;
+        width: ${props => (props.active ? "100%" : "0")};
       }
   `};
 `;
@@ -132,39 +139,156 @@ const TitleItem = styled(NavItem)`
    `};
 `;
 
+const FilterItems = styled.div`
+  width: 97vh;
+  display: ${props => (props.display ? "flex" : "none")};
+
+  align-items: flex-start;
+  justify-content: center;
+  transform: rotate(0deg);
+  transform-origin: bottom right;
+  margin-left: auto;
+  position: fixed;
+  padding: 10px;
+  right: 0;
+  top: 95vw;
+
+  ${media.handheld_landscape`
+    transform: unset;
+    position: relative;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-top: 0;
+    top: 0;
+    opacity: ${props => (props.display ? "1" : "0")};
+    max-height: ${props => (props.display ? "600px" : "0")};
+    transition: .5s max-height, .5s opacity;
+    padding: 0;
+  `};
+`;
+
+const FilterItem = styled.h2`
+  margin: 0 7px;
+  ${props => props.theme.typeMixins.p};
+  text-transform: uppercase;
+  position: relative;
+  cursor: pointer;
+  &:before {
+    content: "";
+    width: ${props => (props.active ? "100%" : "0")};
+    height: 40%;
+    position: absolute;
+    background-color: ${props => props.theme.keyColor};
+    top: 30%;
+    left: 0;
+    z-index: -1;
+    opacity: ${props => (props.active ? "1" : "0")};
+    transition: 0.5s opacity;
+  }
+  ${media.handheld_landscape`
+    color: white;
+    margin-bottom: 1rem;
+    &:before{
+      height: 5px;
+      top: 85%;
+  `};
+`;
+
 const Nav = props => {
   const [navDisplay, setNavDisplay] = useState(false);
-  return (
-    <Fragment>
-      <Icon
-        navDisplay={navDisplay}
-        onClick={() => setNavDisplay(!navDisplay)}
-      />
-      <NavWrapper navDisplay={navDisplay}>
-        <Left>
-          <Link to="/" onClick={() => setNavDisplay(!navDisplay)}>
-            <TitleItem>Rindon Johnson {navDisplay} </TitleItem>
-          </Link>
 
-          <NavItems>
+  const [workSubDisplay, setWorkSubDisplay] = useState(false);
+
+  const displaySubNav = () => {
+    alert("inside of displaySubnav");
+    if (props.location.pathname === "/" && workSubDisplay) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const handleWorkClick = e => {
+    if (props.width < 769) {
+      e.preventDefault();
+      console.log(workSubDisplay);
+      setWorkSubDisplay(!workSubDisplay);
+      console.log(workSubDisplay);
+    }
+  };
+
+  // e =>
+  //   props.width > 768
+  //     ? setNavDisplay(!navDisplay)
+  //     : e => {
+  //       e.preventDefault();
+  //       setWorkSubDisplay(!workSubDisplay);
+  //     }
+
+  if (props.tags) {
+    return (
+      <Fragment>
+        <Icon
+          navDisplay={navDisplay}
+          onClick={() => setNavDisplay(!navDisplay)}
+        />
+        <NavWrapper navDisplay={navDisplay}>
+          <Left>
             <Link to="/" onClick={() => setNavDisplay(!navDisplay)}>
-              <NavItem active={props.location.pathname === "/"}>Work</NavItem>
+              <TitleItem>Rindon Johnson {navDisplay} </TitleItem>
             </Link>
-            <Link to="/news" onClick={() => setNavDisplay(!navDisplay)}>
-              <NavItem active={props.location.pathname === "/news"}>
-                News
-              </NavItem>
-            </Link>
-            <Link to="/about" onClick={() => setNavDisplay(!navDisplay)}>
-              <NavItem active={props.location.pathname === "/about"}>
-                About
-              </NavItem>
-            </Link>
-          </NavItems>
-        </Left>
-      </NavWrapper>
-    </Fragment>
-  );
+            <NavItems>
+              <Link to="/" onClick={handleWorkClick}>
+                <NavItem active={props.location.pathname === "/"}>Work</NavItem>
+              </Link>
+              <FilterItems
+                display={
+                  workSubDisplay ||
+                  (props.location.pathname === "/" && props.width > 768)
+                }
+              >
+                <FilterItem
+                  active={props.currentFilterValue === "all"}
+                  onClick={() => {
+                    props.setFilterValue("all");
+                    setNavDisplay(false);
+                  }}
+                >
+                  <Link to="/">All</Link>
+                </FilterItem>
+                {props.tags.map(tag => {
+                  return (
+                    <FilterItem
+                      key={generateKey(tag.title)}
+                      active={props.currentFilterValue === tag.title}
+                      onClick={() => {
+                        props.setFilterValue(tag.title);
+                        setNavDisplay(false);
+                      }}
+                    >
+                      <Link to="/">{tag.title}</Link>
+                    </FilterItem>
+                  );
+                })}
+              </FilterItems>
+              <Link to="/news" onClick={() => setNavDisplay(!navDisplay)}>
+                <NavItem active={props.location.pathname === "/news"}>
+                  News
+                </NavItem>
+              </Link>
+              <Link to="/about" onClick={() => setNavDisplay(!navDisplay)}>
+                <NavItem active={props.location.pathname === "/about"}>
+                  About
+                </NavItem>
+              </Link>
+            </NavItems>
+          </Left>
+        </NavWrapper>
+      </Fragment>
+    );
+  } else {
+    return null;
+  }
 };
 
 export default withRouter(Nav);

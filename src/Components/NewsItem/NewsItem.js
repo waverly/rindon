@@ -19,7 +19,7 @@ const ItemWrapper = styled.div`
 const OuterWrap = styled.div`
   transition: 0.25s all;
   &:hover {
-    background-color: ${props => props.theme.colors.yellow};
+    background-color: ${props => props.theme.keyColor};
     transition: 0.5s background-color;
   }
 
@@ -66,7 +66,7 @@ const Title = styled.h3`
 const Blurb = styled.div``;
 const Date = styled.p``;
 const Location = styled.p``;
-const MoreInfo = styled.a`
+const MoreInfo = styled.p`
   margin-top: auto;
   text-decoration: underline;
 `;
@@ -76,22 +76,22 @@ const NewsItem = props => {
 
   return (
     <OuterWrap>
-      <ItemWrapper>
-        <Left>
-          <Title>{title}</Title>
-          <Blurb>{RichText.render(blurb, linkResolver)}</Blurb>
-        </Left>
-        <Right>
-          <div>
-            <Date>{time}</Date>
-            <Location>{location}</Location>
-          </div>
+      <a target="_blank" href={link}>
+        <ItemWrapper>
+          <Left>
+            <Title>{title}</Title>
+            <Blurb>{RichText.render(blurb, linkResolver)}</Blurb>
+          </Left>
+          <Right>
+            <div>
+              <Date>{time}</Date>
+              <Location>{location}</Location>
+            </div>
 
-          <MoreInfo target="_blank" href={link}>
-            More Information
-          </MoreInfo>
-        </Right>
-      </ItemWrapper>
+            <MoreInfo>More Information</MoreInfo>
+          </Right>
+        </ItemWrapper>
+      </a>
     </OuterWrap>
   );
 };

@@ -39,7 +39,7 @@ const FilterItem = styled.h2`
     width: ${props => (props.active ? "100%" : "0")};
     height: 40%;
     position: absolute;
-    background-color: ${props => props.theme.colors.yellow};
+    background-color: ${props => props.theme.keyColor};
     top: 30%;
     left: 0;
     z-index: -1;
@@ -77,7 +77,7 @@ class Work extends Component {
   };
 
   async componentDidMount() {
-    const [data, tags] = await Promise.all([fetchWorkPage(), fetchTags()]);
+    const data = await fetchWorkPage();
     const dataSet = data.workPageData;
     const allYears = dataSet.map(r => r.year);
     let uniqueYears = allYears.filter(function(item, pos) {
@@ -85,7 +85,7 @@ class Work extends Component {
     });
     uniqueYears.sort(this.compare);
 
-    this.setState({ workPageData: dataSet, tagData: tags, years: uniqueYears });
+    this.setState({ workPageData: dataSet, years: uniqueYears });
 
     setTimeout(() => {
       this.setState({ loaded: true });
@@ -96,78 +96,50 @@ class Work extends Component {
     if (this.state.workPageData) {
       return (
         <PageWrap loaded={this.state.loaded}>
-          <Filter
-            initialValue="all"
-            render={({ currentFilterValue, setFilterValue }) => (
-              <Fragment>
-                <FilterItems>
-                  <FilterItem
-                    active={currentFilterValue === "all"}
-                    onClick={() => {
-                      setFilterValue("all");
-                    }}
-                  >
-                    All
-                  </FilterItem>
-                  {this.state.tagData.map(tag => {
+          <PortfolioWrapper>
+            {this.state.years.map(year => {
+              if (
+                this.state.workPageData
+                  .filter(i => i.year === year)
+                  .filter(i => {
                     return (
-                      <FilterItem
-                        active={currentFilterValue === tag.title}
-                        key={generateKey(tag.uid)}
-                        onClick={() => {
-                          setFilterValue(tag.title);
-                        }}
-                      >
-                        {tag.title}
-                      </FilterItem>
+                      this.props.currentFilterValue === "all" ||
+                      i.tags.some(tag => {
+                        if (tag) {
+                          return tag.title === this.props.currentFilterValue;
+                        } else return null;
+                      })
                     );
-                  })}
-                </FilterItems>
-                <PortfolioWrapper>
-                  {this.state.years.map(year => {
-                    if (
-                      this.state.workPageData
-                        .filter(i => i.year === year)
-                        .filter(i => {
-                          return (
-                            currentFilterValue === "all" ||
-                            i.tags.some(tag => {
-                              if (tag) {
-                                return tag.title === currentFilterValue;
-                              } else return null;
-                            })
-                          );
-                        }).length > 0
-                    ) {
-                      return (
-                        <Fragment key={year}>
-                          <YearTitle>{year}</YearTitle>
-                          {this.state.workPageData
-                            .filter(i => i.year === year)
-                            .filter(i => {
+                  }).length > 0
+              ) {
+                return (
+                  <Fragment key={year}>
+                    <YearTitle>{year}</YearTitle>
+                    {this.state.workPageData
+                      .filter(i => i.year === year)
+                      .filter(i => {
+                        return (
+                          this.props.currentFilterValue === "all" ||
+                          i.tags.some(tag => {
+                            if (tag) {
                               return (
-                                currentFilterValue === "all" ||
-                                i.tags.some(tag => {
-                                  if (tag) {
-                                    return tag.title === currentFilterValue;
-                                  } else return null;
-                                })
+                                tag.title === this.props.currentFilterValue
                               );
-                            })
-                            .map(item => (
-                              <PortfolioItem
-                                data={item}
-                                key={generateKey(item.uid)}
-                              />
-                            ))}
-                        </Fragment>
-                      );
-                    } else return null;
-                  })}
-                </PortfolioWrapper>
-              </Fragment>
-            )}
-          />
+                            } else return null;
+                          })
+                        );
+                      })
+                      .map(item => (
+                        <PortfolioItem
+                          data={item}
+                          key={generateKey(item.uid)}
+                        />
+                      ))}
+                  </Fragment>
+                );
+              } else return null;
+            })}
+          </PortfolioWrapper>
         </PageWrap>
       );
     } else return null;

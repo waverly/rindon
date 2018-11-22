@@ -18,6 +18,10 @@ const FilterItems = styled.div`
   top: -20px;
   right: 0;
   padding: 10px;
+
+  ${media.handheld_landscape`
+    display: none;
+  `};
 `;
 
 const FilterItem = styled.h2`
@@ -31,7 +35,7 @@ const FilterItem = styled.h2`
     width: 0%;
     height: 40%;
     position: absolute;
-    background-color: ${props => props.theme.colors.yellow};
+    background-color: ${props => props.theme.keyColor};
     top: 30%;
     left: 0;
     z-index: -1;

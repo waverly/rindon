@@ -56,15 +56,15 @@ const FullHeight = styled.div`
 `;
 
 const Title = styled.div`
-  width: 97vh;
+  width: 100vh;
   display: flex;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: flex-start;
   transform: rotate(-90deg);
   transform-origin: bottom right;
   margin-left: auto;
   position: fixed;
-  top: -20px;
+  top: -60px;
   right: 0;
   background: transparent;
   padding: 20px;
@@ -75,8 +75,16 @@ const Title = styled.div`
   span {
     position: relative;
     &:before {
-      ${props => props.theme.yellowBefore}
-      width: 0;
+      content: "";
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      background-color: #e9ff00;
+      top: -3px;
+      left: -5px;
+      z-index: -1;
+      width: 105%;
+      padding: 2px;
     }
 
     ${media.handheld_landscape`
@@ -86,16 +94,6 @@ const Title = styled.div`
         width: 100%;
       }
     `};
-  }
-
-  &:hover {
-    span {
-      &:before {
-        opacity: 1;
-        width: 100%;
-        transition: all 0.5s;
-      }
-    }
   }
 `;
 

@@ -17,7 +17,7 @@ const ItemWrapper = styled.div`
 const OuterWrap = styled.div`
   transition: 0.1s all;
   &:hover {
-    background-color: ${props => props.theme.colors.yellow};
+    background-color: ${props => props.theme.keyColor};
     transition: 0.5s all;
   }
 

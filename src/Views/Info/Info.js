@@ -48,9 +48,15 @@ const StyledLink = styled.h2`
   position: relative;
   display: inline-block;
   margin-right: 50px;
+  &:before {
+    ${props => props.theme.yellowBefore};
+    width: 0;
+    transition: 0.5s all;
+  }
   &:hover {
     &:before {
-      ${props => props.theme.yellowBefore};
+      width: 100%;
+      transition: 0.5s all;
     }
   }
 `;

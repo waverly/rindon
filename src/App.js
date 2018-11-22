@@ -14,6 +14,8 @@ import Work from "./Views/Work";
 import WorkDetail from "./Views/WorkDetail";
 import Nav from "./Components/Nav";
 
+import { fetchColor, fetchTags } from "Utils/prismic-configuration";
+
 injectGlobal`
 	${globalStyles}
 `;
@@ -36,10 +38,26 @@ const InnerLoadWrapper = styled.div`
 class App extends Component {
   state = {
     loaded: false,
-    innerLoaded: false
+    innerLoaded: false,
+    currentFilterValue: "all",
+    width: 0,
+    height: 0
   };
 
-  componentDidMount() {
+  setFilterValue = newValue => {
+    this.setState({
+      currentFilterValue: newValue
+    });
+  };
+
+  updateWindowDimensions = () => {
+    this.setState({ width: window.innerWidth, height: window.innerHeight });
+  };
+
+  async componentDidMount() {
+    this.updateWindowDimensions();
+    window.addEventListener("resize", this.updateWindowDimensions);
+
     setTimeout(() => {
       this.setState({ loaded: true });
     }, 1000);
@@ -47,13 +65,39 @@ class App extends Component {
     setTimeout(() => {
       this.setState({ innerLoaded: true });
     }, 2000);
+
+    const [tags, color] = await Promise.all([fetchTags(), fetchColor()]);
+
+    console.log(color);
+
+    this.setState({
+      tagData: tags,
+      color: color
+    });
+
+    if (this.state.width > 768) {
+      this.setState({ currentFilterValue: "all" });
+    } else {
+      this.setState({ currentFilterValue: "" });
+    }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.updateWindowDimensions);
   }
 
   render() {
+    const { color } = this.state;
+
+    const baseTheme = {
+      ...theme,
+      keyColor: color
+    };
+
     return (
       <Route
         render={({ location }) => (
-          <ThemeProvider theme={theme}>
+          <ThemeProvider theme={baseTheme}>
             <ReactCSSTransitionReplace
               transitionName="fade-wait"
               transitionEnterTimeout={1000}
@@ -64,9 +108,23 @@ class App extends Component {
                   innerLoaded={this.state.loaded}
                   key={location.pathname}
                 >
-                  <Nav />
+                  <Nav
+                    setFilterValue={this.setFilterValue}
+                    currentFilterValue={this.state.currentFilterValue}
+                    tags={this.state.tagData}
+                    width={this.state.width}
+                  />
                   <Switch location={location}>
-                    <Route path="/" exact component={Work} />
+                    <Route
+                      path="/"
+                      exact
+                      render={props => (
+                        <Work
+                          keyColor={this.state.color}
+                          currentFilterValue={this.state.currentFilterValue}
+                        />
+                      )}
+                    />
                     <Route path="/work/:uid" exact component={WorkDetail} />
                     <Route path="/news" exact component={News} />
                     <Route path="/about" exact component={Info} />
