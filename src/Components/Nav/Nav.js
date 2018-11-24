@@ -64,7 +64,8 @@ const Icon = styled.button`
   width: 30px;
   height: 30px;
   border-radius: ${props => (props.navDisplay ? "0%" : "50%")};
-  background-color: ${props => (props.navDisplay ? "yellow" : "black")};
+  background-color: ${props =>
+    props.navDisplay ? props.theme.keyColor : "black"};
   transition: 1s all;
   position: fixed;
   z-index: ${props => props.theme.z.alert};
@@ -140,18 +141,20 @@ const TitleItem = styled(NavItem)`
 `;
 
 const FilterItems = styled.div`
-  width: 97vh;
+  width: 100vh;
   display: ${props => (props.display ? "flex" : "none")};
-
-  align-items: flex-start;
+  align-items: flex-end;
   justify-content: center;
-  transform: rotate(0deg);
+  flex-wrap: wrap;
+  transform: rotate(-90deg);
   transform-origin: bottom right;
   margin-left: auto;
   position: fixed;
   padding: 10px;
   right: 0;
-  top: 95vw;
+  top: -60px;
+  height: 60px;
+  z-index: 1000;
 
   ${media.handheld_landscape`
     transform: unset;
@@ -182,8 +185,14 @@ const FilterItem = styled.h2`
     top: 30%;
     left: 0;
     z-index: -1;
-    opacity: ${props => (props.active ? "1" : "0")};
-    transition: 0.5s opacity;
+    transition: 0.5s all;
+  }
+
+  &:hover {
+    &:before {
+      width: 100%;
+      transition: 1s all;
+    }
   }
   ${media.handheld_landscape`
     color: white;
@@ -232,6 +241,36 @@ const Nav = props => {
           navDisplay={navDisplay}
           onClick={() => setNavDisplay(!navDisplay)}
         />
+        <FilterItems
+          display={
+            workSubDisplay ||
+            (props.location.pathname === "/" && props.width > 768)
+          }
+        >
+          <FilterItem
+            active={props.currentFilterValue === "all"}
+            onClick={() => {
+              props.setFilterValue("all");
+              setNavDisplay(false);
+            }}
+          >
+            <Link to="/">All</Link>
+          </FilterItem>
+          {props.tags.map(tag => {
+            return (
+              <FilterItem
+                key={generateKey(tag.title)}
+                active={props.currentFilterValue === tag.title}
+                onClick={() => {
+                  props.setFilterValue(tag.title);
+                  setNavDisplay(false);
+                }}
+              >
+                <Link to="/">{tag.title}</Link>
+              </FilterItem>
+            );
+          })}
+        </FilterItems>
         <NavWrapper navDisplay={navDisplay}>
           <Left>
             <Link to="/" onClick={() => setNavDisplay(!navDisplay)}>
@@ -241,36 +280,6 @@ const Nav = props => {
               <Link to="/" onClick={handleWorkClick}>
                 <NavItem active={props.location.pathname === "/"}>Work</NavItem>
               </Link>
-              <FilterItems
-                display={
-                  workSubDisplay ||
-                  (props.location.pathname === "/" && props.width > 768)
-                }
-              >
-                <FilterItem
-                  active={props.currentFilterValue === "all"}
-                  onClick={() => {
-                    props.setFilterValue("all");
-                    setNavDisplay(false);
-                  }}
-                >
-                  <Link to="/">All</Link>
-                </FilterItem>
-                {props.tags.map(tag => {
-                  return (
-                    <FilterItem
-                      key={generateKey(tag.title)}
-                      active={props.currentFilterValue === tag.title}
-                      onClick={() => {
-                        props.setFilterValue(tag.title);
-                        setNavDisplay(false);
-                      }}
-                    >
-                      <Link to="/">{tag.title}</Link>
-                    </FilterItem>
-                  );
-                })}
-              </FilterItems>
               <Link to="/news" onClick={() => setNavDisplay(!navDisplay)}>
                 <NavItem active={props.location.pathname === "/news"}>
                   News

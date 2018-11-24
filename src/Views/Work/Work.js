@@ -77,6 +77,7 @@ class Work extends Component {
   };
 
   async componentDidMount() {
+    window.scrollTo(0, 0);
     const data = await fetchWorkPage();
     const dataSet = data.workPageData;
     const allYears = dataSet.map(r => r.year);

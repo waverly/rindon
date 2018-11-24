@@ -21,7 +21,6 @@ injectGlobal`
 `;
 
 const LoadWrapper = styled.div`
-  background: ${props => (props.loaded ? "transparent" : "rgba(0, 0, 0, 1)")};
   transition: 1s all;
 `;
 

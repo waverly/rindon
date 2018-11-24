@@ -74,6 +74,7 @@ const Title = styled.div`
 
   span {
     position: relative;
+    margin-left: 15px;
     &:before {
       content: "";
       width: 100%;
