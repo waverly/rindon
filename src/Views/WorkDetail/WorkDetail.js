@@ -79,7 +79,7 @@ const Title = styled.div`
       width: 100%;
       height: 100%;
       position: absolute;
-      background-color: #e9ff00;
+      background-color: ${props => props.theme.keyColor};
       top: -3px;
       left: -5px;
       z-index: -1;

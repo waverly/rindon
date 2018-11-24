@@ -20,13 +20,8 @@ injectGlobal`
 	${globalStyles}
 `;
 
-const firstChild = props => {
-  const childrenArray = React.Children.toArray(props.children);
-  return childrenArray[0] || null;
-};
-
 const LoadWrapper = styled.div`
-  background: ${props => (props.loaded ? "transparent" : "yellow")};
+  background: ${props => (props.loaded ? "transparent" : "rgba(0, 0, 0, 1)")};
   transition: 1s all;
 `;
 

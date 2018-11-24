@@ -24,7 +24,7 @@ const OuterWrap = styled.div`
   svg {
     transition: 0.75s all;
     rect {
-      fill: rgb(249, 255, 0);
+      fill: ${props => props.theme.keyColor};
       stroke-width: 0;
     }
   }

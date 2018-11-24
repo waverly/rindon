@@ -6,15 +6,7 @@ import normalized from "./normalized";
 
 import { fetchColor } from "Utils/prismic-configuration";
 
-const color = () => {
-  const c = fetchColor();
-  console.log("inside of fetch color");
-  alert(c);
-  return c;
-};
-
 // const color = "#00DDFF";
-
 export const globalStyles = css`
   ${normalized}
 
@@ -46,7 +38,6 @@ export const globalStyles = css`
   body {
     padding: 0;
     font-family: "Acumin Pro", Helvetica, sans-serif;
-    background-color: ${color};
   }
 
   button,
@@ -141,7 +132,7 @@ export const globalStyles = css`
 
   .fade-wait-leave {
     opacity: 1;
-    background: #e9ff00;
+    background: black;
     transition: all 0.5s;
   }
   .fade-wait-leave.fade-wait-leave-active {
@@ -155,13 +146,13 @@ export const globalStyles = css`
 
   .fade-wait-enter.fade-wait-enter-active {
     opacity: 1;
-    background: #e9ff00;
+    background: black;
     /* Delay the enter animation until the leave completes */
     transition: opacity 0.4s ease-in 0.6s;
   }
 
   .fade-wait-height {
-    background: #e9ff00;
+    background: black;
     transition: height 10s ease-in-out;
   }
 `;
