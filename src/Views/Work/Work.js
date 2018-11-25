@@ -95,10 +95,12 @@ class Work extends Component {
 
   render() {
     if (this.state.workPageData) {
+      console.log("yes tehre is data");
       return (
         <PageWrap loaded={this.state.loaded}>
           <PortfolioWrapper>
             {this.state.years.map(year => {
+              console.log(year);
               if (
                 this.state.workPageData
                   .filter(i => i.year === year)

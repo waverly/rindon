@@ -1,6 +1,8 @@
 // @flow
 
 import React, { Component } from "react";
+import Prismic from "prismic-javascript";
+
 import styled from "styled-components";
 import { Switch, Route } from "react-router-dom";
 import ReactCSSTransitionReplace from "react-css-transition-replace";
@@ -14,7 +16,11 @@ import Work from "./Views/Work";
 import WorkDetail from "./Views/WorkDetail";
 import Nav from "./Components/Nav";
 
-import { fetchColor, fetchTags } from "Utils/prismic-configuration";
+import {
+  apiEndpoint,
+  fetchColor,
+  fetchTags
+} from "Utils/prismic-configuration";
 
 injectGlobal`
 	${globalStyles}

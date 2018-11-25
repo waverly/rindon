@@ -42,8 +42,10 @@ export const fetchWorkPage = async () => {
       const tags = await Promise.all(
         data.tags.map(async tag => {
           const uid = tag.tag.uid;
-          const tagData = await fetchTagData(uid);
-          return tagData;
+          if (uid) {
+            const tagData = await fetchTagData(uid);
+            return tagData;
+          } else return null;
         })
       );
       const date = data.project_date;
