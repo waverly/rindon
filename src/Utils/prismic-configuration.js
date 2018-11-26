@@ -92,7 +92,7 @@ export const fetchNewsPage = async () => {
       const dateArray = Array.from(date);
       const yearArray = dateArray.slice(0, 4);
       const year = yearArray.join("");
-      return { uid, title, blurb, year, time, location, link };
+      return { uid, date, title, blurb, year, time, location, link };
     })
   );
 

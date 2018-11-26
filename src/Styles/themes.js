@@ -28,7 +28,7 @@ export const theme = {
     h4: "1.4rem",
     h5: "1.4rem",
     mobileXl: "5rem",
-    mobileL: "3.5rem",
+    mobileL: "3.2rem",
     mobileP: "2rem"
   },
   lineHeight: {

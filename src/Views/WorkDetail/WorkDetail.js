@@ -24,17 +24,17 @@ const PageWrap = styled.div`
   p {
     margin: 2rem 0;
   }
+  a {
+    position: relative;
+    border-bottom: 2px solid black;
+  }
 `;
 
 const IntroText = styled.div`
-  position: fixed;
+  position: relative;
   top: 0;
   width: 100vw;
-  padding: 20vw;
-  height: 100vh;
-  z-index: 0;
   padding: 50px 10vw;
-  overflow: scroll;
 `;
 
 const BodyWrap = styled.div`
@@ -42,7 +42,6 @@ const BodyWrap = styled.div`
   position: relative;
   background: white;
   width: 100vw;
-  margin-top: 100vh;
   opacity: 1;
   /* add the delay display: block so-as to not interrupt react transition group loading */
   display: ${props => (props.display ? "block" : "none")};
@@ -98,11 +97,6 @@ const Title = styled.div`
   }
 `;
 
-const Test = styled.div`
-  height: 100vh;
-  width: 100vw;
-`;
-
 class WorkDetail extends Component {
   state = {
     loaded: false,
@@ -134,44 +128,101 @@ class WorkDetail extends Component {
     if (this.state.data) {
       const { body, intro_text, title } = this.state.data;
 
-      return (
-        <PageWrap loaded={this.state.loaded}>
-          <Title>
-            <span>{title}</span>
-          </Title>
-          <IntroText>{RichText.render(intro_text, linkResolver)}</IntroText>
-          <BodyWrap display={this.state.bodyDisplay}>
-            {body.map((module, index) => {
-              switch (module.slice_type) {
-                case "image":
-                  return (
-                    <ImageBlock
-                      key={generateKey(index)}
-                      data={module.primary}
-                    />
-                  );
-                case "diptych":
-                  return (
-                    <Diptych key={generateKey(index)} data={module.primary} />
-                  );
-                case "video":
-                  return (
-                    <VideoBlock
-                      key={generateKey(index)}
-                      data={module.primary}
-                    />
-                  );
-                case "text":
-                  return (
-                    <TextBlock key={generateKey(index)} data={module.primary} />
-                  );
-                default:
-                  return null;
-              }
-            })}
-          </BodyWrap>
-        </PageWrap>
-      );
+      console.log(intro_text.length);
+
+      if (intro_text[0].text != "" > 0 && body.length > 0) {
+        return (
+          <PageWrap loaded={this.state.loaded}>
+            <Title>
+              <span>{title}</span>
+            </Title>
+            <IntroText>{RichText.render(intro_text, linkResolver)}</IntroText>
+            <BodyWrap display={this.state.bodyDisplay}>
+              {body.map((module, index) => {
+                switch (module.slice_type) {
+                  case "image":
+                    return (
+                      <ImageBlock
+                        key={generateKey(index)}
+                        data={module.primary}
+                      />
+                    );
+                  case "diptych":
+                    return (
+                      <Diptych key={generateKey(index)} data={module.primary} />
+                    );
+                  case "video":
+                    return (
+                      <VideoBlock
+                        key={generateKey(index)}
+                        data={module.primary}
+                      />
+                    );
+                  case "text":
+                    return (
+                      <TextBlock
+                        key={generateKey(index)}
+                        data={module.primary}
+                      />
+                    );
+                  default:
+                    return null;
+                }
+              })}
+            </BodyWrap>
+          </PageWrap>
+        );
+      } else if (intro_text[0].text != "" && body.length < 1) {
+        return (
+          <PageWrap loaded={this.state.loaded}>
+            <Title>
+              <span>{title}</span>
+            </Title>
+            <IntroText>{RichText.render(intro_text, linkResolver)}</IntroText>
+          </PageWrap>
+        );
+      } else if (intro_text[0].text === "" && body.length > 0) {
+        return (
+          <PageWrap loaded={this.state.loaded}>
+            <Title>
+              <span>{title}</span>
+            </Title>
+            <BodyWrap display={this.state.bodyDisplay}>
+              {body.map((module, index) => {
+                switch (module.slice_type) {
+                  case "image":
+                    return (
+                      <ImageBlock
+                        key={generateKey(index)}
+                        data={module.primary}
+                      />
+                    );
+                  case "diptych":
+                    return (
+                      <Diptych key={generateKey(index)} data={module.primary} />
+                    );
+                  case "video":
+                    return (
+                      <VideoBlock
+                        key={generateKey(index)}
+                        data={module.primary}
+                      />
+                    );
+                  case "text":
+                    return (
+                      <TextBlock
+                        key={generateKey(index)}
+                        data={module.primary}
+                      />
+                    );
+                  default:
+                    return null;
+                }
+              })}
+            </BodyWrap>
+          </PageWrap>
+        );
+      }
     } else return <PageWrap />;
   }
 }

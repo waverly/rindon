@@ -6,7 +6,7 @@ import { media } from "Styles/style-utils";
 
 const Wrapper = styled.div`
   width: 100vw;
-  margin-top: -4px;
+  margin-top: -7px;
   img {
     width: 100%;
   }
@@ -23,7 +23,9 @@ const Caption = styled.div`
 const ImageBlock = props => {
   const image = props.data.image.url;
   const caption = props.data.caption;
-  if (image && caption.length > 0) {
+  console.log({ image, caption });
+  console.log(caption[0].text);
+  if (image && caption.length > 0 && caption[0].text != "") {
     return (
       <Wrapper>
         <img src={image} />

@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from "react";
-import Prismic from "prismic-javascript";
+import { withRouter } from "react-router";
 
 import styled from "styled-components";
 import { Switch, Route } from "react-router-dom";
@@ -68,22 +68,33 @@ class App extends Component {
 
     const [tags, color] = await Promise.all([fetchTags(), fetchColor()]);
 
-    console.log(color);
-
     this.setState({
       tagData: tags,
       color: color
     });
 
-    if (this.state.width > 768) {
-      this.setState({ currentFilterValue: "all" });
-    } else {
-      this.setState({ currentFilterValue: "" });
-    }
+    this.setState({ currentFilterValue: "all" });
+
+    // if (this.state.width > 768) {
+    //   this.setState({ currentFilterValue: "all" });
+    // } else {
+    //   this.setState({ currentFilterValue: "" });
+    // }
   }
 
   componentWillUnmount() {
     window.removeEventListener("resize", this.updateWindowDimensions);
+  }
+
+  // this sets filter back to "all" after page change
+  componentDidUpdate(prevProps) {
+    if (this.props.location !== prevProps.location) {
+      if (this.props.location.pathname === "/") {
+        this.setState({
+          currentFilterValue: "all"
+        });
+      }
+    }
   }
 
   render() {
@@ -139,18 +150,4 @@ class App extends Component {
   }
 }
 
-export default App;
-
-{
-  /* <ThemeProvider theme={theme}>
-        <div>
-          <Nav />
-          <Switch>
-            <Route path="/" exact component={Work} />
-            <Route path="/work/:uid" exact component={WorkDetail} />
-            <Route path="/news" exact component={News} />
-            <Route path="/about" exact component={Info} />
-          </Switch>
-        </div>
-      </ThemeProvider> */
-}
+export default withRouter(App);

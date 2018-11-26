@@ -87,8 +87,19 @@ class News extends Component {
     return 0;
   };
 
+  compareNewsItems = (a, b) => {
+    if (a.date && b.date) {
+      if (a.date < b.date) return 1;
+      if (a.date > b.date) return -1;
+    } else {
+      return 0;
+    }
+  };
+
   async componentDidMount() {
     const data = await fetchNewsPage();
+
+    data.sort(this.compareNewsItems);
 
     const allYears = data.map(r => r.year);
     let uniqueYears = allYears.filter(function(item, pos) {

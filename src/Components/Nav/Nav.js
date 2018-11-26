@@ -167,6 +167,7 @@ const FilterItems = styled.div`
     max-height: ${props => (props.display ? "600px" : "0")};
     transition: .5s max-height, .5s opacity;
     padding: 0;
+    height: auto;
   `};
 `;
 
@@ -234,7 +235,7 @@ const Nav = props => {
   //       setWorkSubDisplay(!workSubDisplay);
   //     }
 
-  if (props.tags) {
+  if (props.tags && props.width > 768) {
     return (
       <Fragment>
         <Icon
@@ -280,6 +281,67 @@ const Nav = props => {
               <Link to="/" onClick={handleWorkClick}>
                 <NavItem active={props.location.pathname === "/"}>Work</NavItem>
               </Link>
+              <Link to="/news" onClick={() => setNavDisplay(!navDisplay)}>
+                <NavItem active={props.location.pathname === "/news"}>
+                  News
+                </NavItem>
+              </Link>
+              <Link to="/about" onClick={() => setNavDisplay(!navDisplay)}>
+                <NavItem active={props.location.pathname === "/about"}>
+                  About
+                </NavItem>
+              </Link>
+            </NavItems>
+          </Left>
+        </NavWrapper>
+      </Fragment>
+    );
+  } else if (props.width < 769 && props.tags) {
+    return (
+      <Fragment>
+        <Icon
+          navDisplay={navDisplay}
+          onClick={() => setNavDisplay(!navDisplay)}
+        />
+        <NavWrapper navDisplay={navDisplay}>
+          <Left>
+            <Link to="/" onClick={() => setNavDisplay(!navDisplay)}>
+              <TitleItem>Rindon Johnson {navDisplay} </TitleItem>
+            </Link>
+            <NavItems>
+              <Link to="/" onClick={handleWorkClick}>
+                <NavItem active={props.location.pathname === "/"}>Work</NavItem>
+              </Link>
+              <FilterItems
+                display={
+                  workSubDisplay ||
+                  (props.location.pathname === "/" && props.width > 768)
+                }
+              >
+                <FilterItem
+                  active={props.currentFilterValue === "all"}
+                  onClick={() => {
+                    props.setFilterValue("all");
+                    setNavDisplay(false);
+                  }}
+                >
+                  <Link to="/">All</Link>
+                </FilterItem>
+                {props.tags.map(tag => {
+                  return (
+                    <FilterItem
+                      key={generateKey(tag.title)}
+                      active={props.currentFilterValue === tag.title}
+                      onClick={() => {
+                        props.setFilterValue(tag.title);
+                        setNavDisplay(false);
+                      }}
+                    >
+                      <Link to="/">{tag.title}</Link>
+                    </FilterItem>
+                  );
+                })}
+              </FilterItems>
               <Link to="/news" onClick={() => setNavDisplay(!navDisplay)}>
                 <NavItem active={props.location.pathname === "/news"}>
                   News

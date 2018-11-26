@@ -5,7 +5,7 @@ import { linkResolver } from "Utils/prismic-configuration";
 
 const Wrapper = styled.div`
   width: 100vw;
-  margin-top: -4px;
+  margin-top: -7px;
   display: flex;
   img {
     width: 50%;
