@@ -141,7 +141,7 @@ export const globalStyles = css`
   }
 
   .fade-wait-enter {
-    opacity: 0;
+    opacity: 1;
   }
 
   .fade-wait-enter.fade-wait-enter-active {
