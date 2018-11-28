@@ -35,6 +35,7 @@ const IntroText = styled.div`
   top: 0;
   width: 100vw;
   padding: 50px 10vw;
+  display: ${props => (props.display ? "block" : "none")};
 `;
 
 const BodyWrap = styled.div`
@@ -71,9 +72,16 @@ const Title = styled.div`
   ${props => props.theme.typeMixins.p};
   text-transform: uppercase;
 
+  ${media.handheld_landscape`
+      font-size: 3rem;
+      pointer-events: none;
+      padding: 10px;
+  `};
+
   span {
     position: relative;
     margin-left: 15px;
+    padding: 0 5px 0 0;
     &:before {
       content: "";
       width: 100%;
@@ -90,6 +98,7 @@ const Title = styled.div`
     ${media.handheld_landscape`
       font-size: 3rem;
       pointer-events: none;
+      padding: 5px;
       &:before{
         width: 100%;
       }
@@ -106,7 +115,6 @@ class WorkDetail extends Component {
   async componentDidMount() {
     window.scrollTo(0, 0);
     const uid = this.props.match.params.uid;
-    console.log(uid);
     const api = await Prismic.api(apiEndpoint);
     let data = await api.getByUID("work_item", uid);
     if (data) {
@@ -119,7 +127,9 @@ class WorkDetail extends Component {
         this.setState({ loaded: true });
       }, 1500);
       setTimeout(() => {
-        this.setState({ bodyDisplay: true });
+        if (body.length > 0) {
+          this.setState({ bodyDisplay: true });
+        }
       }, 2500);
     }
   }
@@ -127,103 +137,49 @@ class WorkDetail extends Component {
   render() {
     if (this.state.data) {
       const { body, intro_text, title } = this.state.data;
-
-      console.log(intro_text.length);
-
-      if (intro_text[0].text != "" > 0 && body.length > 0) {
-        return (
-          <PageWrap loaded={this.state.loaded}>
-            <Title>
-              <span>{title}</span>
-            </Title>
-            <IntroText>{RichText.render(intro_text, linkResolver)}</IntroText>
-            <BodyWrap display={this.state.bodyDisplay}>
-              {body.map((module, index) => {
-                switch (module.slice_type) {
-                  case "image":
-                    return (
-                      <ImageBlock
-                        key={generateKey(index)}
-                        data={module.primary}
-                      />
-                    );
-                  case "diptych":
-                    return (
-                      <Diptych key={generateKey(index)} data={module.primary} />
-                    );
-                  case "video":
-                    return (
-                      <VideoBlock
-                        key={generateKey(index)}
-                        data={module.primary}
-                      />
-                    );
-                  case "text":
-                    return (
-                      <TextBlock
-                        key={generateKey(index)}
-                        data={module.primary}
-                      />
-                    );
-                  default:
-                    return null;
-                }
-              })}
-            </BodyWrap>
-          </PageWrap>
-        );
-      } else if (intro_text[0].text != "" && body.length < 1) {
-        return (
-          <PageWrap loaded={this.state.loaded}>
-            <Title>
-              <span>{title}</span>
-            </Title>
-            <IntroText>{RichText.render(intro_text, linkResolver)}</IntroText>
-          </PageWrap>
-        );
-      } else if (intro_text[0].text === "" && body.length > 0) {
-        return (
-          <PageWrap loaded={this.state.loaded}>
-            <Title>
-              <span>{title}</span>
-            </Title>
-            <BodyWrap display={this.state.bodyDisplay}>
-              {body.map((module, index) => {
-                switch (module.slice_type) {
-                  case "image":
-                    return (
-                      <ImageBlock
-                        key={generateKey(index)}
-                        data={module.primary}
-                      />
-                    );
-                  case "diptych":
-                    return (
-                      <Diptych key={generateKey(index)} data={module.primary} />
-                    );
-                  case "video":
-                    return (
-                      <VideoBlock
-                        key={generateKey(index)}
-                        data={module.primary}
-                      />
-                    );
-                  case "text":
-                    return (
-                      <TextBlock
-                        key={generateKey(index)}
-                        data={module.primary}
-                      />
-                    );
-                  default:
-                    return null;
-                }
-              })}
-            </BodyWrap>
-          </PageWrap>
-        );
-      }
-    } else return <PageWrap />;
+      return (
+        <PageWrap loaded={this.state.loaded}>
+          <Title>
+            <span>{title}</span>
+          </Title>
+          <IntroText
+            display={intro_text.length > 0 && intro_text[0].text != ""}
+          >
+            {RichText.render(intro_text, linkResolver)}
+          </IntroText>
+          <BodyWrap display={this.state.bodyDisplay}>
+            {body.map((module, index) => {
+              switch (module.slice_type) {
+                case "image":
+                  return (
+                    <ImageBlock
+                      key={generateKey(index)}
+                      data={module.primary}
+                    />
+                  );
+                case "diptych":
+                  return (
+                    <Diptych key={generateKey(index)} data={module.primary} />
+                  );
+                case "video":
+                  return (
+                    <VideoBlock
+                      key={generateKey(index)}
+                      data={module.primary}
+                    />
+                  );
+                case "text":
+                  return (
+                    <TextBlock key={generateKey(index)} data={module.primary} />
+                  );
+                default:
+                  return null;
+              }
+            })}
+          </BodyWrap>
+        </PageWrap>
+      );
+    } else return null;
   }
 }
 

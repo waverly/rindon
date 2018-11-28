@@ -132,12 +132,56 @@ const NavItem = styled.h2`
 `;
 
 const TitleItem = styled(NavItem)`
+  margin-left: 15px;
+  pointer-events: ${props => (props.workDetail ? "none" : "auto")};
+  &:before {
+    width: ${props => (props.workDetail ? "105%" : "0%")};
+    opacity: ${props => (props.workDetail ? "1" : "0")};
+    height: 100%;
+    position: absolute;
+    background-color: #e1b3ff;
+    top: -3px;
+    left: -5px;
+    z-index: -1;
+    padding: 2px;
+    pointer-events: none;
+  }
+
+  &:hover {
+    pointer-events: ${props => (props.workDetail ? "none" : "auto")};
+    &:before {
+      width: 100%;
+      opacity: 1;
+      transition: 0.5s width;
+      height: 40%;
+      position: absolute;
+      background-color: ${props => props.theme.keyColor};
+      top: 30%;
+      left: 0;
+      z-index: -1;
+    }
+  }
+
   ${media.handheld_landscape`
     color: white; 
     font-size: ${props => props.theme.fontSize.mobileL};
     line-height: ${props => props.theme.lineHeight.mobileL};
     margin-bottom: 3rem;
-   `};
+
+      &:before {
+      width: auto;
+      opacity: 1;
+      height: 100%;
+      position: absolute;
+      background-color: #e1b3ff;
+      top: -3px;
+      left: -5px;
+      z-index: -1;
+      width: 105%;
+      padding: 2px;
+      pointer-events: none;
+      }
+    `};
 `;
 
 const FilterItems = styled.div`
@@ -275,7 +319,11 @@ const Nav = props => {
         <NavWrapper navDisplay={navDisplay}>
           <Left>
             <Link to="/" onClick={() => setNavDisplay(!navDisplay)}>
-              <TitleItem>Rindon Johnson {navDisplay} </TitleItem>
+              <TitleItem
+                workDetail={props.location.pathname.includes("/work/")}
+              >
+                Rindon Johnson {navDisplay}{" "}
+              </TitleItem>
             </Link>
             <NavItems>
               <Link to="/" onClick={handleWorkClick}>
